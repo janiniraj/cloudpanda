@@ -14,6 +14,9 @@
 	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/jquery.orgchart.css">
 	<link rel="stylesheet" href="http://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
 	<link rel = "stylesheet" type = "text/css" href = "<?php echo base_url(); ?>assets/css/cloudpanda.css">
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/reset.min.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/webfonts.css"  />
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/demo.css"      />
 </head>
 <body>
 <script type="text/javascript" src="<?= base_url(); ?>assets/js/jquery.min.js"></script>

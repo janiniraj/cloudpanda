@@ -57,3 +57,5 @@ $route['default_controller'] = 'organizations/index';
 $route['organizations/create'] = 'organizations/create';
 $route['organizations/(:any)'] = 'organizations/view/$1';
 $route['organizations'] = 'organizations';
+
+$route['stringspiral'] = 'stringspiral';
