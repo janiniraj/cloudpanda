@@ -2,6 +2,9 @@
 
 /**
  * Class Organization_Model
+ *
+ * @author: Niraj Jani
+ * @email: jani.niraj@outlook.com
  */
 class Organization_Model extends CI_Model
 {
@@ -16,13 +19,24 @@ class Organization_Model extends CI_Model
 	/**
 	 * Get Organizations
 	 *
+     * @param $list=false
 	 * @return mixed
 	 */
-	public function getOrganizations()
+	public function getOrganizations($list = false)
 	{
-		$query = $this->db->select('organizations.*, parent_table.name as parent_name, parent_table.position as parent_position');
-		$query = $query->join('organizations as parent_table', 'organizations.parent = parent_table.id', 'LEFT');
-		$query = $query->get('organizations');
+        $query = $this->db;
+
+	    if($list)
+        {
+            $query = $query->select('id, name');
+        }
+        else
+        {
+            $query = $query->select('organizations.*, parent_table.name as parent_name, parent_table.position as parent_position')
+                        ->join('organizations as parent_table', 'organizations.parent = parent_table.id', 'LEFT');
+        }
+
+        $query = $query->get('organizations');
 
 		return $query->result_array();
 	}
@@ -42,7 +56,7 @@ class Organization_Model extends CI_Model
 
 		foreach ($query->result() as $row)
 		{
-			$child = $this->getChilderen($row->id);
+			$child = $this->getChildren($row->id);
 
 			if (count($child) > 0)
 			{
@@ -60,10 +74,12 @@ class Organization_Model extends CI_Model
 	}
 
 	/**
+     * Get Children
+     *
 	 * @param $parentId
 	 * @return array|bool
 	 */
-	private function getChilderen($parentId)
+	private function getChildren($parentId)
 	{
 		$child 	= array();
 		$query 	= $this->db->select('id, name, position, parent as children')
@@ -76,7 +92,7 @@ class Organization_Model extends CI_Model
 			{
 				if ($row->children > 0)
 				{
-					$row->children = $this->getChilderen($row->id);
+					$row->children = $this->getChildren($row->id);
 				}
 
 				$child[$i] = $row;
@@ -89,4 +105,53 @@ class Organization_Model extends CI_Model
 			return false;
 		}
 	}
+
+    /**
+     * Delete Record
+     *
+     * @param $id
+     * @return mixed
+     */
+	public function delete($id)
+    {
+        return $this->db->delete('organizations', array('id' => $id));
+    }
+
+    /**
+     * Create New Record
+     *
+     * @param $postData
+     * @return mixed
+     */
+    public function create($postData)
+    {
+        return $this->db->insert('organizations', $postData);
+    }
+
+    /**
+     * Fetch Record By Id
+     *
+     * @param $id
+     * @return mixed
+     */
+    public function fetchById($id)
+    {
+        $query = $this->db->get_where('organizations', array('id' => $id));
+
+        return $query->row_array();
+    }
+
+    /**
+     * Update Record By Id
+     *
+     * @param $postData
+     * @param $id
+     * @return mixed
+     */
+    public function update($postData, $id)
+    {
+        $this->db->where('id', $id);
+
+        return $this->db->update('organizations', $postData);
+    }
 }

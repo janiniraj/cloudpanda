@@ -2,6 +2,9 @@
 
 /**
  * Class Organizations
+ *
+ * @author: Niraj Jani
+ * @email: jani.niraj@outlook.com
  */
 class Organizations extends CI_Controller
 {
@@ -14,11 +17,12 @@ class Organizations extends CI_Controller
 
 		$this->load->model('Organization_Model');
 		$this->load->helper('url_helper');
+        $this->load->library('session');
 	}
 
-	/**
-	 * Organization Index
-	 */
+    /**
+     * Organization Index
+     */
 	public function index()
 	{
 		$data = [
@@ -32,38 +36,89 @@ class Organizations extends CI_Controller
 		$this->load->view('templates/footer');
 	}
 
+    /**
+     * Delete Organization Record
+     *
+     * @param $id
+     */
+	public function delete($id)
+    {
+        if($this->Organization_Model->delete($id))
+        {
+            $this->session->set_flashdata('msg', 'Record Deleted Successfully.');
+        }
+        else
+        {
+            $this->session->set_flashdata('msg', 'Error in Deleting Record');
+        }
 
-	public function view($slug = NULL)
-	{
-		$data['news_item'] = $this->news_model->get_news($slug);
-		if (empty($data['news_item']))
-		{
-			show_404();
-		}
-		$data['title'] = $data['news_item']['title'];
-		$this->load->view('templates/header', $data);
-		$this->load->view('news/view', $data);
-		$this->load->view('templates/footer');
-	}
+        redirect(site_url(), 'refresh');
+    }
+
+    /**
+     * Create Organization Record
+     */
 	public function create()
 	{
 		$this->load->helper(array('form', 'url'));
 		$this->load->library('form_validation');
-		$data['title'] = 'Create a news item';
-		$this->form_validation->set_rules('title', 'Title', 'required');
-		$this->form_validation->set_rules('text', 'Text', 'required');
+
+		$this->form_validation->set_rules('name', 'Name', 'required');
+		$this->form_validation->set_rules('position', 'Position', 'required');
+        $this->form_validation->set_rules('parent', 'Parent', 'required');
+
+        $data = [
+            'title'             => 'Add new Organization record',
+            'organizationList'  => $this->Organization_Model->getOrganizations(true)
+        ];
+
 		if ($this->form_validation->run() === FALSE)
 		{
 			$this->load->view('templates/header', $data);
-			$this->load->view('news/create');
+			$this->load->view('organizations/form');
 			$this->load->view('templates/footer');
 		}
 		else
 		{
-			$this->news_model->set_news($this->input->post_get('title', true), $this->input->post_get('text', true));
-			$this->load->view('templates/header', $data);
-			$this->load->view('news/success');
-			$this->load->view('templates/footer');
+			$this->Organization_Model->create($this->input->post());
+            $this->session->set_flashdata('msg', 'Record Created Successfully.');
+
+			redirect(site_url(), 'refresh');
 		}
 	}
+
+    /**
+     * Edit Organization Record
+     *
+     * @param $id
+     */
+	public function edit($id)
+    {
+        $this->load->helper(array('form', 'url'));
+        $this->load->library('form_validation');
+
+        $this->form_validation->set_rules('name', 'Name', 'required');
+        $this->form_validation->set_rules('position', 'Position', 'required');
+        $this->form_validation->set_rules('parent', 'Parent', 'required');
+
+        $data = [
+            'title'             => 'Add new Organization record',
+            'organizationList'  => $this->Organization_Model->getOrganizations(true),
+            'item'              => $this->Organization_Model->fetchById($id)
+        ];
+
+        if ($this->form_validation->run() === FALSE)
+        {
+            $this->load->view('templates/header', $data);
+            $this->load->view('organizations/form');
+            $this->load->view('templates/footer');
+        }
+        else
+        {
+            $this->Organization_Model->update($this->input->post(), $id);
+            $this->session->set_flashdata('msg', 'Record Updated Successfully.');
+
+            redirect(site_url(), 'refresh');
+        }
+    }
 }

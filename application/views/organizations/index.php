@@ -26,7 +26,12 @@
 					<td><?=$singleValue['position'] ?></td>
 					<td><?=$singleValue['parent_name'] ?></td>
 					<td><?=$singleValue['parent_position'] ?></td>
-					<td>Edit</td>
+					<td>
+                        <?php if($singleValue['parent'] != 0): ?>
+                        <a href="<?= site_url('organizations/edit/'.$singleValue['id']) ?>">Edit</a>
+                        <a href="<?= site_url('organizations/delete/'.$singleValue['id']) ?>">Delete</a>
+                        <?php endif; ?>
+                    </td>
 				</tr>
 			<?php endforeach; ?>
 			</tbody>
@@ -43,6 +48,8 @@
 			'nodeContent': 'position'
 		});
 
-		$('#grid').DataTable();
+		$('#grid').DataTable({
+            dom: 'Bfrtip'
+        });
 	});
 </script>

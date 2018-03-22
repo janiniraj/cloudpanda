@@ -2,62 +2,57 @@
 
 /**
  * Class Stringspiral
+ *
+ * @author: Niraj Jani
+ * @email: jani.niraj@outlook.com
  */
 class Stringspiral extends CI_Controller
 {
 	/**
-	 * Organizations constructor.
+	 * Stringspiral constructor.
 	 */
 	public function __construct()
 	{
 		parent::__construct();
 
 		$this->load->helper('url_helper');
+        $this->load->library('session');
+        $this->load->helper('string');
 	}
 
 	/**
-	 * Organization Index
+	 * Stringspiral Index
 	 */
 	public function index()
 	{
-		$data['title'] = 'String Spiral';
+        //$randomArrayStringGenerator = array_fill(0, rand(5,10), array_fill(0, rand(5,10), random_string('alnum', rand(5,10))));
+
+        $spiralStringArray          = [];
+        $spiralMainArrayNumber      = rand(5,10);
+        $spiralMainArray            = [];
+
+        for($i = 0; $i < $spiralMainArrayNumber; $i++)
+        {
+            $subArrayNumber = rand(5,10);
+            $subArray       = [];
+            for($j = 0; $j < $subArrayNumber; $j++)
+            {
+                $subArray[$j] = random_string('alnum', rand(5,10));
+            }
+            $spiralStringArray[] = implode(" ", $subArray);
+            $spiralMainArray[$i] = $subArray;
+        }
+
+        $spiralMainString   = implode(" ", $spiralStringArray);
+
+		$data               = [
+            'title'             => 'String Spiral',
+            'spiralMainArray'   => $spiralMainArray,
+            'spiralMainString'  => $spiralMainString
+        ];
+
 		$this->load->view('templates/header', $data);
 		$this->load->view('stringspiral/index', $data);
 		$this->load->view('templates/footer');
-	}
-
-
-	public function view($slug = NULL)
-	{
-		$data['news_item'] = $this->news_model->get_news($slug);
-		if (empty($data['news_item']))
-		{
-			show_404();
-		}
-		$data['title'] = $data['news_item']['title'];
-		$this->load->view('templates/header', $data);
-		$this->load->view('news/view', $data);
-		$this->load->view('templates/footer');
-	}
-	public function create()
-	{
-		$this->load->helper(array('form', 'url'));
-		$this->load->library('form_validation');
-		$data['title'] = 'Create a news item';
-		$this->form_validation->set_rules('title', 'Title', 'required');
-		$this->form_validation->set_rules('text', 'Text', 'required');
-		if ($this->form_validation->run() === FALSE)
-		{
-			$this->load->view('templates/header', $data);
-			$this->load->view('news/create');
-			$this->load->view('templates/footer');
-		}
-		else
-		{
-			$this->news_model->set_news($this->input->post_get('title', true), $this->input->post_get('text', true));
-			$this->load->view('templates/header', $data);
-			$this->load->view('news/success');
-			$this->load->view('templates/footer');
-		}
 	}
 }
