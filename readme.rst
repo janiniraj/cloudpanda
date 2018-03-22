@@ -50,8 +50,11 @@ Important Urls
 **************
 
 http://localhost/cloudpanda/
+
 http://localhost/cloudpanda/index.php/organizations/create
+
 http://localhost/cloudpanda/index.php/stringspiral
+
 http://localhost/cloudpanda/index.php/organizations/edit/2
 
 *******************
