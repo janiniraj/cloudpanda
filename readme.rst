@@ -1,70 +1,60 @@
 ###################
-What is CodeIgniter
+Cloud Panda Test for Niraj Jani
 ###################
 
-CodeIgniter is an Application Development Framework - a toolkit - for people
-who build web sites using PHP. Its goal is to enable you to develop projects
-much faster than you could if you were writing code from scratch, by providing
-a rich set of libraries for commonly needed tasks, as well as a simple
-interface and logical structure to access these libraries. CodeIgniter lets
-you creatively focus on your project by minimizing the amount of code needed
-for a given task.
+-- Contains Two tasks.
 
-*******************
-Release Information
-*******************
-
-This repo contains in-development code for future releases. To download the
-latest stable release please visit the `CodeIgniter Downloads
-<https://codeigniter.com/download>`_ page.
-
-**************************
-Changelog and New Features
-**************************
-
-You can find a list of all changes for each release in the `user
-guide change log <https://github.com/bcit-ci/CodeIgniter/blob/develop/user_guide_src/source/changelog.rst>`_.
-
-*******************
-Server Requirements
-*******************
-
-PHP version 5.6 or newer is recommended.
-
-It should work on 5.3.7 as well, but we strongly advise you NOT to run
-such old versions of PHP, because of potential security and performance
-issues, as well as missing features.
+-- Task 1 -- Organization hierarchy Management and display as chart and table
+-- Task 2 -- Random Alphanumeric Text as spiral based on random two dimentional array
 
 ************
 Installation
 ************
+Please follow below steps
 
-Please see the `installation section <https://codeigniter.com/user_guide/installation/index.html>`_
-of the CodeIgniter User Guide.
+-- Clone the github into local
+-- try git clone https://github.com/janiniraj/cloudpanda.git
+-- create database named "cloudpanda"
+-- import cloudpanda.sql from root folder to mysql database
+-- open application/config/database.php and change the database username and password
+-- run in the browser as http://localhost/cloudpanda/
 
-*******
-License
-*******
+************
+Instructions
+************
 
-Please see the `license
-agreement <https://github.com/bcit-ci/CodeIgniter/blob/develop/user_guide_src/source/license.rst>`_.
+-- Menu have organizations, add new record and text spiral
+-- application/config/routes.php contain routes
+-- application/controllers/Organizations.php and application/controllers/Stringspiral.php contains the controller
+-- application/models/Organization_Model.php contains the Model for table organizations
+-- The same model contains the recursive function to fetch the data as tree form
+-- The controller Stringspiral.php contains the logic to create two dimentional random element alpha numeric array and I have used two loops only.
+-- The layout of each page is in application/views (No use of bootstrap)
 
-*********
-Resources
-*********
+**************
+Important Urls
+**************
+http://localhost/cloudpanda/
+http://localhost/cloudpanda/index.php/organizations/create
+http://localhost/cloudpanda/index.php/stringspiral
+http://localhost/cloudpanda/index.php/organizations/edit/2
 
--  `User Guide <https://codeigniter.com/docs>`_
--  `Language File Translations <https://github.com/bcit-ci/codeigniter3-translations>`_
--  `Community Forums <http://forum.codeigniter.com/>`_
--  `Community Wiki <https://github.com/bcit-ci/CodeIgniter/wiki>`_
--  `Community Slack Channel <https://codeigniterchat.slack.com>`_
+*******************
+Requirements
+*******************
 
-Report security issues to our `Security Panel <mailto:security@codeigniter.com>`_
-or via our `page on HackerOne <https://hackerone.com/codeigniter>`_, thank you.
+PHP version 5.6 or newer is recommended.
+Mysql should be installed
 
-***************
-Acknowledgement
-***************
+*******************
+Notes
+*******************
 
-The CodeIgniter team would like to thank EllisLab, all the
-contributors to the CodeIgniter project and you, the CodeIgniter user.
+-- I tried to use codeigniter -- This first project of mine in codeigniter and I took 5-6 hrs to create this as time was limited (one day).
+-- I used full MVC structure, used model for database operations
+-- I used codeigniter's default functionality mostly, but please allow me where it can't be possible at this moment
+-- I didn't used anywhere raw query like "SELECT * from ...." instead I used codeigniter's query builder
+-- I used template functionality, created header and footer
+-- tried to make it responsive as much as I can.
+-- Using bootsrap we can make it responsive easily and vislually good looking (not used in this project at this moment as per the rules of sheet provided).
+-- Please consider the code quality and standards for neat code.

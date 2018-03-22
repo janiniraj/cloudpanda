@@ -20,9 +20,10 @@ class Organization_Model extends CI_Model
 	 * Get Organizations
 	 *
      * @param $list=false
+     * @param $id=NULL
 	 * @return mixed
 	 */
-	public function getOrganizations($list = false)
+	public function getOrganizations($list = false, $id = NULL)
 	{
         $query = $this->db;
 
@@ -34,6 +35,12 @@ class Organization_Model extends CI_Model
         {
             $query = $query->select('organizations.*, parent_table.name as parent_name, parent_table.position as parent_position')
                         ->join('organizations as parent_table', 'organizations.parent = parent_table.id', 'LEFT');
+        }
+
+        // In case of Edit, remove the same record from list
+        if($id)
+        {
+        	$query = $query->where('id !=', $id);
         }
 
         $query = $query->get('organizations');

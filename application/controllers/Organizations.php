@@ -103,7 +103,7 @@ class Organizations extends CI_Controller
 
         $data = [
             'title'             => 'Add new Organization record',
-            'organizationList'  => $this->Organization_Model->getOrganizations(true),
+            'organizationList'  => $this->Organization_Model->getOrganizations(true, $id),
             'item'              => $this->Organization_Model->fetchById($id)
         ];
 
